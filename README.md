@@ -124,3 +124,4 @@ See individual component READMEs for detailed setup instructions:
 - `/nlp-engine/README.md`
 - `/github-engine/README.md`
 - `/orchestrator/README.md`
+# slack-github
