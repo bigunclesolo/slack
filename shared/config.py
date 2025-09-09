@@ -6,7 +6,7 @@ import os
 from functools import lru_cache
 from typing import Optional
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     slack_bot_token: str = ""
     slack_app_token: str = ""
     slack_signing_secret: str = ""
+    slack_admin_channel: Optional[str] = None  # Channel for error notifications
+    slack_default_channel: Optional[str] = None  # Default channel for notifications
     
     # GitHub Configuration
     github_token: str = ""
@@ -79,11 +81,13 @@ class Settings(BaseSettings):
     enable_metrics: bool = True
     metrics_port: int = 9090
     log_format: str = "json"  # json or text
-    
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = False
+
+    # Pydantic settings (v2)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
         
     def get_allowed_extensions(self) -> list:
         """Get list of allowed file extensions"""

@@ -12,7 +12,9 @@ import multiprocessing as mp
 
 from shared.config import get_settings, validate_settings, print_configuration
 from shared.messaging import cleanup_messaging
-from slack_bot.app import main as slack_bot_main
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'slack-bot'))
+from app import main as slack_bot_main
 from orchestrator.workflow import start_orchestrator
 
 # Configure logging

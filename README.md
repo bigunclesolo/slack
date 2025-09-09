@@ -28,12 +28,16 @@ This system enables users to interact with GitHub repositories through Slack usi
 ## Components
 
 ### 1. Slack Bot
-- **Purpose**: Interface for receiving user commands and sending responses
+- **Purpose**: Modern Slack app interface for receiving user commands and sending responses
 - **Features**:
   - Slash commands (`/github`, `/code`, `/pr`)
-  - Interactive buttons and modals
-  - Real-time status updates
+  - Global shortcuts for quick access (Ctrl+/ or Cmd+/)
+  - Interactive buttons and rich modals with Block Kit
+  - Real-time status updates with timestamps
   - File upload support for code snippets
+  - Direct message capabilities
+  - Error handling with admin notifications
+  - Socket Mode for real-time events (no webhooks needed)
 
 ### 2. NLP Engine
 - **Purpose**: Parse natural language into structured commands
@@ -117,13 +121,107 @@ This system enables users to interact with GitHub repositories through Slack usi
    - Automated security scanning
    - Review requirements for sensitive operations
 
+## Setup & Connection Instructions
+
+### Quick Setup
+
+1. **Clone the repository and setup environment**:
+   ```bash
+   git clone <repository-url>
+   cd slack-github-automation
+   cp .env.example .env
+   ```
+
+2. **Create and configure your Slack App**:
+   - Go to [Slack API](https://api.slack.com/apps)
+   - Click "Create New App" → "From scratch"
+   - Enter app name and select your workspace
+
+3. **Configure Slack App permissions**:
+   - Go to "OAuth & Permissions" and add these Bot Token Scopes:
+     - `app_mentions:read` - Read mentions of your app
+     - `channels:history` - View messages in public channels
+     - `chat:write` - Send messages
+     - `commands` - Add slash commands
+     - `files:read` - View files shared in channels
+     - `users:read` - View people in workspace
+     - `im:write` - Send direct messages
+     - `channels:read` - View basic channel information
+     - `groups:read` - View basic private channel information
+
+4. **Enable Socket Mode**:
+   - Go to "Socket Mode" and enable it
+   - Generate an App Token with `connections:write` scope
+   - Copy the App Token (starts with `xapp-`)
+
+5. **Install App and get Bot Token**:
+   - Click "Install to Workspace"
+   - Copy the Bot User OAuth Token (starts with `xoxb-`)
+
+6. **Add Slash Commands**:
+   - Go to "Slash Commands" and create:
+     - `/github` - "Execute GitHub operations with natural language"
+     - `/code` - "Generate or modify code using AI"
+     - `/pr` - "Manage pull requests"
+   - Leave Request URL empty (using Socket Mode)
+
+7. **Create GitHub Personal Access Token**:
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate new token with these scopes:
+     - `repo` (full repository access)
+     - `read:user`
+     - `user:email`
+
+8. **Configure Environment Variables**:
+   Edit your `.env` file with your tokens:
+   ```bash
+   # Required: Slack Configuration
+   SLACK_BOT_TOKEN=xoxb-your-bot-token-here
+   SLACK_APP_TOKEN=xapp-your-app-token-here
+   
+   # Required: GitHub Configuration
+   GITHUB_TOKEN=ghp_your-github-token-here
+   ```
+
+9. **Install Dependencies and Start**:
+   ```bash
+   python -m pip install -r requirements.txt
+   python -m spacy download en_core_web_sm
+   docker-compose up -d postgres redis
+   python main.py --mode development
+   ```
+
+### Usage Examples
+
+Once connected, you can use these commands in Slack:
+
+- **Create branches**: `/github create a new branch called feature-auth in my-repo`
+- **Generate code**: `/code add a Python function to validate email addresses`
+- **Create PRs**: `/pr create pull request from feature-auth to main`
+- **Mention bot**: `@SlackGitBot fix the bug in src/auth.py line 45`
+
+### Troubleshooting Connection Issues
+
+1. **Bot not responding**:
+   - Verify Slack app installation and bot token
+   - Ensure Socket Mode is enabled
+   - Check that app token has `connections:write` scope
+
+2. **GitHub operations failing**:
+   - Verify GitHub token permissions include `repo` scope
+   - Check that token hasn't expired
+   - Ensure repository access is granted
+
+3. **Database/Redis errors**:
+   - Verify Docker containers are running: `docker-compose ps`
+   - Check connection strings in `.env` file
+
+For detailed setup instructions, see `/SETUP.md`.
+
 ## Getting Started
 
-See individual component READMEs for detailed setup instructions:
+See individual component READMEs for detailed technical information:
 - `/slack-bot/README.md`
 - `/nlp-engine/README.md`
 - `/github-engine/README.md`
 - `/orchestrator/README.md`
-# slack-github
-# slack
-# slack

@@ -81,12 +81,15 @@ python main.py --mode worker
 2. **Configure Bot Token Scopes**
    - Go to "OAuth & Permissions"
    - Add these scopes under "Bot Token Scopes":
-     - `app_mentions:read`
-     - `channels:history`
-     - `chat:write`
-     - `commands`
-     - `files:read`
-     - `users:read`
+     - `app_mentions:read` - Read mentions of your app
+     - `channels:history` - View messages in public channels
+     - `chat:write` - Send messages
+     - `commands` - Add slash commands
+     - `files:read` - View files shared in channels
+     - `users:read` - View people in a workspace
+     - `im:write` - Send direct messages
+     - `channels:read` - View basic information about public channels
+     - `groups:read` - View basic information about private channels
 
 3. **Install App to Workspace**
    - Click "Install to Workspace"
@@ -102,6 +105,18 @@ python main.py --mode worker
    - Go to "Slash Commands"
    - Create commands: `/github`, `/code`, `/pr`
    - Leave Request URL empty (using Socket Mode)
+   - Set descriptions:
+     - `/github` - "Execute GitHub operations with natural language"
+     - `/code` - "Generate or modify code using AI"
+     - `/pr` - "Manage pull requests"
+
+6. **Add Global Shortcuts** (Optional)
+   - Go to "Interactivity & Shortcuts"
+   - Enable Interactivity (if not already enabled)
+   - Add Global Shortcut:
+     - Name: "GitHub Quick Action"
+     - Short Description: "Quick access to GitHub operations"
+     - Callback ID: `github_quick_action`
 
 ### GitHub Configuration
 
@@ -160,8 +175,11 @@ python main.py --mode production
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `SLACK_BOT_TOKEN` | Slack bot token | Yes | - |
-| `SLACK_APP_TOKEN` | Slack app token | Yes | - |
+| `SLACK_BOT_TOKEN` | Slack bot token (starts with xoxb-) | Yes | - |
+| `SLACK_APP_TOKEN` | Slack app token (starts with xapp-) | Yes | - |
+| `SLACK_SIGNING_SECRET` | Slack app signing secret | No | - |
+| `SLACK_ADMIN_CHANNEL` | Channel ID for error notifications | No | - |
+| `SLACK_DEFAULT_CHANNEL` | Default channel ID for notifications | No | - |
 | `GITHUB_TOKEN` | GitHub personal access token | Yes | - |
 | `TRANSFORMERS_CACHE_DIR` | Directory for transformer models | No | `./models` |
 | `DATABASE_URL` | PostgreSQL connection string | Yes | `postgresql://...` |
@@ -192,6 +210,10 @@ python main.py --mode production
 
 # Mention the bot
 @SlackGitBot fix the bug in src/auth.py line 45
+
+# Use the global shortcut
+# Type Ctrl+/ (or Cmd+/ on Mac) and search for "GitHub Quick Action"
+# Or use the lightning bolt icon in Slack
 ```
 
 ### Advanced Usage

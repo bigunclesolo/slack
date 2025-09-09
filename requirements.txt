@@ -5,8 +5,8 @@ pydantic==2.5.0
 python-multipart==0.0.6
 
 # Slack Integration
-slack-bolt==1.18.1
-slack-sdk==3.26.0
+slack-bolt==1.19.0
+slack-sdk==3.27.1
 
 # NLP and AI
 spacy==3.7.2
