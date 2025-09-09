@@ -185,7 +185,7 @@ This system enables users to interact with GitHub repositories through Slack usi
 
 9. **Install Dependencies and Start**:
    ```bash
-   python -m pip install -r requirements.txt
+   pip3 install -r requirements.txt
    python -m spacy download en_core_web_sm
    docker-compose up -d postgres redis
    python main.py --mode development
