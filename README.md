@@ -8,7 +8,7 @@ This system enables users to interact with GitHub repositories through Slack usi
 ```
 ┌─────────────┐    ┌─────────────────┐    ┌──────────────────┐
 │   Slack     │───▶│   NLP Engine    │───▶│  GitHub Engine   │
-│   Bot       │    │                 │    │                  │
+│   App       │    │                 │    │                  │
 │             │◀───│  - Intent       │◀───│  - API Client    │
 │ - Webhooks  │    │    Extraction   │    │  - Code Gen      │
 │ - Commands  │    │  - Entity       │    │  - PR Management │
@@ -27,7 +27,7 @@ This system enables users to interact with GitHub repositories through Slack usi
 
 ## Components
 
-### 1. Slack Bot
+### 1. Slack App
 - **Purpose**: Modern Slack app interface for receiving user commands and sending responses
 - **Features**:
   - Slash commands (`/github`, `/code`, `/pr`)
@@ -198,11 +198,11 @@ Once connected, you can use these commands in Slack:
 - **Create branches**: `/github create a new branch called feature-auth in my-repo`
 - **Generate code**: `/code add a Python function to validate email addresses`
 - **Create PRs**: `/pr create pull request from feature-auth to main`
-- **Mention bot**: `@SlackGitBot fix the bug in src/auth.py line 45`
+- **Mention app**: `@SlackGitApp fix the bug in src/auth.py line 45`
 
 ### Troubleshooting Connection Issues
 
-1. **Bot not responding**:
+1. **App not responding**:
    - Verify Slack app installation and bot token
    - Ensure Socket Mode is enabled
    - Check that app token has `connections:write` scope
@@ -221,7 +221,7 @@ For detailed setup instructions, see `/SETUP.md`.
 ## Getting Started
 
 See individual component READMEs for detailed technical information:
-- `/slack-bot/README.md`
+- `/slack-app/README.md`
 - `/nlp-engine/README.md`
 - `/github-engine/README.md`
 - `/orchestrator/README.md`
